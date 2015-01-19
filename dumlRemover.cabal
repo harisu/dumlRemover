@@ -1,0 +1,18 @@
+name: dumlRemover
+version: 0.0.1
+cabal-version: >=1.2
+build-type: Simple
+license: AllRightsReserved
+license-file: ""
+description:  
+author: kouji murakami
+data-dir: ""
+ 
+executable dumlRemover
+    build-depends: base -any, cmdargs -any, directory -any,
+                   filepath -any, regex-compat -any, regex-posix -any
+    main-is: Main.hs
+    buildable: True
+    extensions: DeriveDataTypeable
+    hs-source-dirs: src
+ 
