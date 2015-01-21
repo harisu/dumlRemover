@@ -38,9 +38,11 @@ data Option = Option
 
 option :: Option
 option = Option
-    { src = "."     &= typDir
-    , dist = "/tmp" &= typDir
+    { src = "."     &= typDir　&= help "Convert the original source directory"
+    , dist = "/tmp" &= typDir &= help "Destination source directory"
     }
+    &= summary "DUML Remover tool"
+    &= program "dumlRemover"
 
 getValidContents :: FilePath -> IO [String]
 getValidContents path = filter (`notElem` [".", ".."]) <$> getDirectoryContents path
@@ -69,12 +71,12 @@ readContents rf = do
 
 main :: IO ()
 main = do
-    [src, dist] <- getArgs
-    print src
-    print dist
-    fs <- getRecursiveContents src
+    args <- cmdArgs option
+--    print $ src args
+--    print $ dist args
+    fs <- getRecursiveContents $ src args
     forM_ fs $ \x -> do
         inpStr <- readContents x
 
-        let outputFile = dist ++ "/" ++ takeFileName x
+        let outputFile = dist args ++ "/" ++ takeFileName x
         writeFile outputFile $ unlines $ map(dumlRemover) $ lines inpStr
